@@ -1,0 +1,52 @@
+﻿
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Description": "Postcode API on AWS.",
+
+  "Resources": {
+    "PostcodeController": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "Postcode.API::Postcode.API.LambdaEntryPoint::FunctionHandlerAsync",
+        "FunctionName": "PostcodeAPI",
+        "Description": "Acts as a front controller for the Postcode API.",
+        "Runtime": "dotnetcore3.1",
+        "CodeUri": "",
+        "MemorySize": 256,
+        "Timeout": 900,
+        "Role": "arn:aws:iam::249913729404:role/PostcodeAPI-Execution-Role",
+        "Policies": [
+          "AWSLambdaFullAccess"
+        ],
+        "Environment": {
+          "Variables": {
+            "Source": "Postcode.API",
+            "PostcodeUrl" : "http://api.postcodes.io/postcodes/",
+           
+          }
+        },
+        "Tags": {
+          "Owner": "Hari Kiran",
+        },
+        "Events": {
+          "AnyResource": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/{proxy+}",
+              "Method": "ANY"
+            }
+          }
+        },
+      }
+    },
+
+  "Outputs": {
+    "ApiURL": {
+      "Description": "The endpoint URL for the Postcode API.",
+      "Value": {
+        "Fn::Sub": "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+      }
+    }
+  }
+}
