@@ -56,14 +56,8 @@ If already installed check if new version is available.
     dotnet tool update -g Amazon.Lambda.Tools
 ```
 
-Execute unit tests
-```
-    cd "Postcode.API/test/Postcode.API.Tests"
-    dotnet test
-```
-
 Deploy application
 ```
-    cd "Postcode.API/src/Postcode.API"
-    dotnet lambda deploy-serverless
+    cd "PostcodeAPI/Postcode.API"
+    dotnet lambda deploy-serverless PostcodeAPI
 ```

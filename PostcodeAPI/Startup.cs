@@ -27,7 +27,7 @@ namespace PostcodeAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           
+            services.AddCors();
             services.AddMvc(x => x.EnableEndpointRouting = false)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddHttpContextAccessor();
@@ -35,6 +35,10 @@ namespace PostcodeAPI
 
         }
 
+        /// <summary>
+        /// Method to register the assembly types to create singleton instances using Autofac nuget.
+        /// </summary>
+        /// <param name="builder">Autofac Container Builder.</param>
         public static void ConfigureContainer(ContainerBuilder builder)
         {
             var ass = Assembly.Load("Postcode").GetTypes()
@@ -56,26 +60,18 @@ namespace PostcodeAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
 
-                app.UseCors(builder =>
-                {
-                    builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
-
-                });
+               
             }
+
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+
+            });
             app.UseMvc();
 
-            //app.UseHttpsRedirection();
-
-            //app.UseRouting();
-
-            //app.UseAuthorization();
-
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllers();
-            //});
         }
     }
 }
