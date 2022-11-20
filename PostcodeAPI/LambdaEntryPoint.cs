@@ -11,7 +11,7 @@ namespace Postcode.API
     /// <summary>
     /// This class extends from APIGatewayProxyFunction which contains the methods FunctionHandlerAsync which is the
     /// actual Lambda function entry point. The lambda handler field should be set to
-    /// Postcode.API:: Postcode.API.LambdaEntryPoint::FunctionHandlerAsync.
+    /// Postcode.API::Postcode.API.LambdaEntryPoint::FunctionHandlerAsync.
     /// </summary>
     public class LambdaEntryPoint : APIGatewayProxyFunction
     {
@@ -21,7 +21,7 @@ namespace Postcode.API
             {
                 throw new ArgumentNullException(nameof(builder));
             }
-
+            
             builder.UseServiceProviderFactory(new AutofacServiceProviderFactory());
             builder.ConfigureWebHostDefaults(x => x.UseStartup<Startup>());
         }

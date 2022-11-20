@@ -1,49 +1,53 @@
-﻿
-{
+﻿{
   "AWSTemplateFormatVersion": "2010-09-09",
   "Transform": "AWS::Serverless-2016-10-31",
-  "Description": "Postcode API on AWS.",
-
+  "Description": "An AWS Serverless Application that uses the ASP.NET Core framework running in Amazon Lambda.",
+  "Parameters": {},
+  "Conditions": {},
   "Resources": {
-    "PostcodeController": {
+    "AspNetCoreFunction": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
         "Handler": "Postcode.API::Postcode.API.LambdaEntryPoint::FunctionHandlerAsync",
-        "FunctionName": "PostcodeAPI",
-        "Description": "Acts as a front controller for the Postcode API.",
+        "FunctionName" : "PostcodeAPI",
         "Runtime": "dotnetcore3.1",
         "CodeUri": "",
         "MemorySize": 256,
-        "Timeout": 900,
-        "Role": "arn:aws:iam::249913729404:role/PostcodeAPI-Execution-Role",
+        "Timeout": 30,
+        "Role": null,
         "Policies": [
-          "AWSLambdaFullAccess"
+          "AWSLambda_FullAccess"
         ],
         "Environment": {
-          "Variables": {
-            "Source": "Postcode.API",
-            "PostcodeUrl" : "http://api.postcodes.io/postcodes/",
+                 "Variables": {
+                   "Source": "Postcode.API",
+                   "PostcodeUrl" : "http://api.postcodes.io/postcodes/",
+                   "AWS_PROFILE" : "poc_user",
            
-          }
-        },
-        "Tags": {
-          "Owner": "Hari Kiran",
-        },
+                 }
+               },
         "Events": {
-          "AnyResource": {
+          "ProxyResource": {
             "Type": "Api",
             "Properties": {
               "Path": "/{proxy+}",
               "Method": "ANY"
             }
+          },
+          "RootResource": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/",
+              "Method": "ANY"
+            }
           }
-        },
+        }
       }
-    },
-
+    }
+  },
   "Outputs": {
     "ApiURL": {
-      "Description": "The endpoint URL for the Postcode API.",
+      "Description": "API endpoint URL for Prod environment",
       "Value": {
         "Fn::Sub": "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
       }

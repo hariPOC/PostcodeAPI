@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>PostcodeAPI</AssemblyName>
+    <AssemblyName>Postcode.API</AssemblyName>
+    <AWSProjectType>Lambda</AWSProjectType>
   </PropertyGroup>
 
 

@@ -31,6 +31,7 @@ namespace PostcodeAPI.Controllers
         
 
         [HttpGet("Lookup")]
+        [Produces("application/json")]
         public Task<PostcodeInfo> Lookup(string postcode)
         {
             var result = postcodeService.Lookup(postcode);
