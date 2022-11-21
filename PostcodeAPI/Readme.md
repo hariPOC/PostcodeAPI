@@ -59,5 +59,5 @@ If already installed check if new version is available.
 Deploy application
 ```
     cd "PostcodeAPI/Postcode.API"
-    dotnet lambda deploy-serverless PostcodeAPI
+    dotnet lambda deploy-serverless
 ```
