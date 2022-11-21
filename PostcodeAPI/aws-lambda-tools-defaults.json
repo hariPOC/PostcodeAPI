@@ -8,7 +8,9 @@
   "profile": "poc_user",
   "region": "us-east-1",
   "configuration": "Release",
+  "s3-bucket": "poccoderepo",
   "s3-prefix": "PostcodeAPI/",
+  "stack-name": "PostcodeAPI",
   "template": "serverless.template",
   "template-parameters": ""
 }
