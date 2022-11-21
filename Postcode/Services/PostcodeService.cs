@@ -15,14 +15,18 @@ namespace Postcode.Services
 
         public async Task<IEnumerable<string>> Autocomplete(string postcode)
         {
-            
+            if(postcode == null)
+            {
+                return EmptyList();
+            }
+
             IFlurlRequest request = UrlFactory.PostcodeUrl;
             var result = await request
                 .AppendPathSegment(postcode + "/autocomplete")
                 .GetJsonAsync<AutocompleteResponse>().ConfigureAwait(false);
             if(result.Postcodes == null)
             {
-                result.Postcodes = new List<string>();// To handle 204 No content error
+                return EmptyList();
             }
      
             return result.Postcodes;
@@ -58,7 +62,12 @@ namespace Postcode.Services
             }
         }
 
-       
+        private static IEnumerable<string> EmptyList()
+        {
+            return new List<string>();
+        }
+
+
     }
 }
 
