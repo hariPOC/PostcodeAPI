@@ -8,7 +8,7 @@
     "AspNetCoreFunction": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
-        "Handler": "PostcodeAPI::Postcode.API.LambdaEntryPoint::FunctionHandlerAsync",
+        "Handler": "PostcodeAPI::PostcodeAPI.LambdaEntryPoint::FunctionHandlerAsync",
         "FunctionName" : "PostcodeAPI",
         "Runtime": "dotnetcore3.1",
         "CodeUri": "",
