@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Postcode.Common;
 
 namespace PostcodeAPI
 {
@@ -62,6 +63,7 @@ namespace PostcodeAPI
 
                
             }
+            app.UseMiddleware<GlobalErrorHandler>();
 
             app.UseCors(builder =>
             {

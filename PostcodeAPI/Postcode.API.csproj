@@ -19,6 +19,7 @@
     <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="7.2.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Postcode.Common\Postcode.Common.csproj" />
     <ProjectReference Include="..\Postcode\Postcode.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
