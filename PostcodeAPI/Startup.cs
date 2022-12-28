@@ -12,7 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Postcode.Common;
+using Postcode.Common.ErrorHandling;
+using Postcode.Common.Logging;
 
 namespace PostcodeAPI
 {
@@ -32,6 +33,13 @@ namespace PostcodeAPI
             services.AddMvc(x => x.EnableEndpointRouting = false)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddHttpContextAccessor();
+            //
+            services.AddOptions<LoggerOption>().Bind
+            (Configuration.GetSection("Logger")).ValidateDataAnnotations();
+            /*IOC*/
+            services.AddSingleton<Postcode.Common.Logging.ILogger, Logger>();
+            services.AddScoped<ILogModelCreator,
+                               LogModelCreator>();
             services.AddSwaggerGen();
 
         }
@@ -64,6 +72,7 @@ namespace PostcodeAPI
                
             }
             app.UseMiddleware<GlobalErrorHandler>();
+            app.UseMiddleware<LoggingMiddleware>();
 
             app.UseCors(builder =>
             {

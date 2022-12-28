@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace Postcode.Common
+namespace Postcode.Common.ErrorHandling
 {
     /// <summary>
     /// App Exception class.

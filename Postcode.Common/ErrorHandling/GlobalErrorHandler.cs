@@ -5,7 +5,7 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Postcode.Common
+namespace Postcode.Common.ErrorHandling
 {
     /// <summary>
     /// Middleware class to handle exceptions globally.
