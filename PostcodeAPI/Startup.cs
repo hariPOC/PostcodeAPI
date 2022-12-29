@@ -50,7 +50,7 @@ namespace PostcodeAPI
         /// <param name="builder">Autofac Container Builder.</param>
         public static void ConfigureContainer(ContainerBuilder builder)
         {
-            var ass = Assembly.Load("Postcode").GetTypes()
+            var assembly = Assembly.Load("Postcode").GetTypes()
                 .Where(t => t.Name.EndsWith("Service", StringComparison.InvariantCulture))
 
                 .Select(t => t.Name);
