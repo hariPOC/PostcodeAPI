@@ -26,4 +26,7 @@
     <Folder Include="Logging\Models\" />
     <Folder Include="ErrorHandling\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" />
+  </ItemGroup>
 </Project>
