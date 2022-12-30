@@ -1,6 +1,11 @@
 ﻿using System;
 using Autofac;
+using Autofac.Core;
+using Autofac.Extras.Moq;
+using FluentAssertions;
+using Moq;
 using NUnit.Framework;
+using Postcode.Models;
 using Postcode.Services;
 
 namespace Postcode.Tests
@@ -10,38 +15,81 @@ namespace Postcode.Tests
     {
         private PostcodeService postcodeService;
 
-        protected ILifetimeScope Scope { get; set; }
-
-        public IUrlFactoryService UrlFactory { get; set; }
-
         [SetUp]
         public void Setup()
         {
-            postcodeService = new PostcodeService();
-            var builder = new ContainerBuilder();
-            builder.RegisterType<UrlFactoryService>().As<IUrlFactoryService>().InstancePerLifetimeScope();
-            var container = builder.Build();
-            // Now we create our scope.
-            Scope = container.BeginLifetimeScope("httpRequest");
 
+            Environment.SetEnvironmentVariable("PostcodeUrl", "http://api.postcodes.io/postcodes/");
+            
+            Action<ContainerBuilder> containerBuilderAction = delegate (ContainerBuilder cb)
+            {
+                cb.RegisterType<UrlFactoryService>().As<IUrlFactoryService>();
+                cb.RegisterType<PostcodeService>().PropertiesAutowired(); //The autofac will go to every single property and try to resolve it.
+            };
+
+            var mock = AutoMock.GetLoose(containerBuilderAction);
+
+            postcodeService = mock.Create<PostcodeService>();
         }
 
-        [TearDown]
-        public void TearDown()
+       
+        [Test]
+        [TestCase("S10 1AE")]
+        public void IsLookupSucess(string postcode)
         {
-            // Cleanup the scope at the end of the test run.
-            Scope.Dispose();
+            PostcodeInfo expectedResult = new PostcodeInfo
+            {
+                Postcode = "S10 1AE",
+                Country = "England",
+                latitude = 53.381165,
+                Region = "Yorkshire and The Humber",
+                AdminDistrict = "Sheffield",
+                ParliamentaryConstituency = "Sheffield Central",
+                Area = "North"
+            };
+
+            PostcodeInfo actualResult = postcodeService.Lookup(postcode).Result;
+
+            //Fluent Assertion.
+            actualResult.Should().BeEquivalentTo(expectedResult);
+            
         }
 
         [Test]
-        [TestCase(typeof(IUrlFactoryService))]
-        public void Test_If_Controller_Resolves(Type serviceTyoe)
+        [TestCase("S")]
+        public void IsAutocompleteSucess(string postcode)
         {
-            // We create the given type using the IOC scope.
-            var controller = Scope.Resolve(serviceTyoe);
-            // Assert it isn't null, although if your registrations are wrong, 
-            // the above line will thrown an exception.
-            Assert.IsNotNull(serviceTyoe);
+
+            var expectedResult = "S10 1AE";
+            var actualResult = postcodeService.Autocomplete(postcode).Result;
+
+            //Fluent Assertion.
+            Assert.Contains(expectedResult, (System.Collections.ICollection)actualResult);
+
         }
+
+        [Test]
+        [TestCase("S10 1AE")]
+        public void IsLookupFailure(string postcode)
+        {
+            PostcodeInfo expectedResult = new PostcodeInfo
+            {
+                Postcode = "S10 1AG",
+                Country = "England",
+                latitude = 53.379204,
+                Region = "Yorkshire and The Humber",
+                AdminDistrict = "Sheffield",
+                ParliamentaryConstituency = "Sheffield, Hallam",
+                Area = "North"
+            };
+
+            var actualResult = postcodeService.Lookup(postcode).Result;
+
+            //Fluent Assertion
+            actualResult.Should().NotBeEquivalentTo(expectedResult);
+
+        }
+
+
     }
 }

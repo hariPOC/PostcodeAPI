@@ -11,10 +11,16 @@
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="Autofac.Extras.Moq" Version="6.1.0" />
+    <PackageReference Include="FluentAssertions" Version="6.8.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PostcodeAPI\Postcode.API.csproj" />
     <ProjectReference Include="..\Postcode\Postcode.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Autofac.Extras.Moq" />
+    <None Remove="FluentAssertions" />
   </ItemGroup>
 </Project>
