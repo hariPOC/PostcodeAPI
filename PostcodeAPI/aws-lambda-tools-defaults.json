@@ -5,10 +5,10 @@
     "dotnet lambda help",
     "All the command line options for the Lambda command can be specified in this file."
   ],
-  "profile": "poc_user",
+  "profile": "postcode_user",
   "region": "us-east-1",
   "configuration": "Release",
-  "s3-bucket": "poccoderepo",
+  "s3-bucket": "postcode-api",
   "s3-prefix": "PostcodeAPI/",
   "stack-name": "PostcodeAPI",
   "template": "serverless.template",

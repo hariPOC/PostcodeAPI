@@ -1,0 +1,8 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Postcode Api CloudFormation template
+Resources:
+    Bucket:
+        Type: AWS::S3::Bucket
+        Properties:
+            BucketName: postcode-api
+            
