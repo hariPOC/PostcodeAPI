@@ -1,12 +1,12 @@
 # ASP.NET Core Web API Serverless Application
 
-This project is all about a simple wrapper POSTCODE API service implemented as an ASP.NET Core Web API project as an AWS Lambda exposed through Amazon API Gateway. 
+This project is all about a simple wrapper POSTCODE API service implemented as an AWS Lambda exposed through Amazon API Gateway. 
 
 
 ### API Details ###
 
 
-    I have deployed this API in AWS and below are the API Details.
+    I have deployed this Postcode API in AWS and below are the API Details.
 
     API Url : https://c8gur7sev1.execute-api.us-east-1.amazonaws.com/Prod
 
