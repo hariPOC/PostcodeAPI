@@ -40,7 +40,23 @@ namespace PostcodeAPI
             services.AddSingleton<Postcode.Common.Logging.ILogger, Logger>();
             services.AddScoped<ILogModelCreator,
                                LogModelCreator>();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(
+                c=>
+                {
+                    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                    {
+                        Title = "Postcode API",
+                        Description = "This is a wrapper API service to get UK Postcode Details.",
+                        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+                        {
+                            Name = "Hari Kiran Thatha",
+                            Email = "hari.thatha@mastek.com",
+                            Url = new Uri("https://github.com/hariPOC/PostcodeAPI.git")
+                        }
+
+                    }); ;
+                }
+                );
 
         }
 
@@ -64,7 +80,7 @@ namespace PostcodeAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsProduction())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
