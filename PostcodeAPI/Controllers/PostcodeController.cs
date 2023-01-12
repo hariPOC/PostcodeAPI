@@ -38,6 +38,18 @@ namespace PostcodeAPI.Controllers
             return result;
         }
 
+        [HttpGet("DbConnection")]
+        [Produces("application/json")]
+        public Task<String> DbConnection()
+        {
+            var result = postcodeService.DbConnection();
+            return result;
+        }
+
+
+
+
+
 
     }
 }

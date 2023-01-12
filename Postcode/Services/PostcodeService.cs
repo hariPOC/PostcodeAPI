@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using Amazon;
+using Amazon.SecretsManager;
+using Amazon.SecretsManager.Model;
 using Flurl.Http;
 using Newtonsoft.Json;
 using Postcode.Contracts;
@@ -15,7 +18,7 @@ namespace Postcode.Services
 
         public async Task<IEnumerable<string>> Autocomplete(string postcode)
         {
-            if(postcode == null)
+            if (postcode == null)
             {
                 return EmptyList();
             }
@@ -24,11 +27,11 @@ namespace Postcode.Services
             var result = await request
                 .AppendPathSegment(postcode + "/autocomplete")
                 .GetJsonAsync<AutocompleteResponse>().ConfigureAwait(false);
-            if(result.Postcodes == null)
+            if (result.Postcodes == null)
             {
                 return EmptyList();
             }
-     
+
             return result.Postcodes;
         }
 
@@ -43,6 +46,29 @@ namespace Postcode.Services
             GetArea(postcodeInfo);
 
             return result.PostcodeInfo;
+        }
+
+        public async Task<string> DbConnection()
+        {
+            string secretName = "DbConnection";
+            string region = "us-east-1";
+
+            IAmazonSecretsManager client = new AmazonSecretsManagerClient(RegionEndpoint.GetBySystemName(region));
+
+            GetSecretValueRequest request = new GetSecretValueRequest
+            {
+                SecretId = secretName,
+                VersionStage = "AWSCURRENT", // VersionStage defaults to AWSCURRENT if unspecified.
+            };
+
+            GetSecretValueResponse response;
+
+            response = await client.GetSecretValueAsync(request);
+
+
+            string secret = response.SecretString;
+
+            return secret;
         }
 
         private static void GetArea(PostcodeInfo postcodeInfo)
